@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class MyList<E> {
     private int size = 0;
     private static final int DEFAULT_CAPACITY = 5;
@@ -35,20 +37,15 @@ public class MyList<E> {
         elements[size++] = e;
     }
     public void add(int index, E element){
-        if (index >= elements.length - 1){
-            size = index;
-            elements = copyArray(elements, ++index);
-            elements[size++] = element;
-        }
-        else {
-            if(size == elements.length){
+
+
+        if(size == elements.length){
                ensureCapa();
                 for (int i = size; i > index ; i--) {
-                    elements[i+1] = elements[i];
+                    elements[i] = elements[i - 1];
                 }
                 elements[index] = element;
                 size++;
-            }
         }
 
     }
@@ -75,15 +72,29 @@ public class MyList<E> {
         return -1;
     }
     public void clear(){
-        elements = new Object[DEFAULT_CAPACITY];
+      Object[]  elementsNew = new Object[DEFAULT_CAPACITY];
+      elements = elementsNew;
+      size=0;
     }
     public MyList clone(){
-        return this;
+        MyList newMyList = new MyList();
+        for (int i = 0; i < size; i++) {
+            newMyList.add(elements[i]);
+        }
+        return newMyList;
     }
 
-//    @Override
-//    public String toString() {
-//
-//        return   elements+"";
-//    }
+    public String toString() {
+        if (size == 0) {
+            return "[]";
+        }
+        else{
+            Object[] newStr = new Object[size];
+            for (int i = 0; i < size; i++) {
+                newStr[i] =  elements[i];
+            }
+            return Arrays.toString(newStr);
+        }
+
+    }
 }
